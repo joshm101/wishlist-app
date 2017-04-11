@@ -1,0 +1,10 @@
+This directory (/test) will pass options to mocha
+from the file mocha.opts. That file specifies what
+directory mocha should look in to find the tests
+it needs to run. We want to redirect to /client/test
+because that is where our client side tests are located.
+
+Mocha looks at test directory at project root 
+by default for tests (or a mocha.opts file to 
+redirect). This is why there is a test directory
+at the project root
