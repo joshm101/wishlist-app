@@ -44,3 +44,19 @@ set MONGOOSE_PORT=[portNumber] & npm run start
 ```
 
 ______________
+
+In either case described above, the Express application will be listening to connections on port 3000. Navigate to `localhost:3000` aka `127.0.0.1:3000` in your browser to run the application's home page.
+
+### Starting point:
+
+This application starts with the non-interactive version of the filterable product table example shown in the React documentation: [Thinking in React](https://facebook.github.io/react/docs/thinking-in-react.html).
+
+
+### Testing
+
+In a terminal/cmd, run:
+```
+npm run test
+```
+
+This command will run mocha tests that are located in `client/test/components/` using the `setup.js` config file in `client/test/`
