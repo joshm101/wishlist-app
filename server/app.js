@@ -4,10 +4,15 @@
 
 const express = require('express');
 const path = require('path');
-const index = require('./routes/index');
+const index = require('./routes/index.route');
+const mongoose = require('mongoose');
+const MONGOOSE_PORT = process.env.MONGOOSE_PORT || 27017;
 
 // express web framework application
 var app = express();
+
+// connect to MongoDB
+mongoose.connect('mongodb://127.0.0.1:' + MONGOOSE_PORT);
 
 // designate view folder and set view engine
 app.set('views', path.join(__dirname, '../client/views'));
