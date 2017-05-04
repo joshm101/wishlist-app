@@ -52,6 +52,13 @@ In either case described above, the Express application will be listening to con
 This application starts with the non-interactive version of the filterable product table example shown in the React documentation: [Thinking in React](https://facebook.github.io/react/docs/thinking-in-react.html).
 
 
+### Build & bundle React:
+
+In a terminal/cmd, run:
+```
+webpack
+```
+
 ### Testing
 
 In a terminal/cmd, run:
