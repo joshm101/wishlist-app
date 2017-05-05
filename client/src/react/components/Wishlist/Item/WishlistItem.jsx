@@ -10,11 +10,21 @@ export class WishlistItem extends React.Component {
   
   constructor() {
     super();
-    this.handleMenuItemClick = this.handleMenuItemClick.bind(this);
+    this.handleVisitLinkClick = this.handleVisitLinkClick.bind(this);
+    this.handleMarkAsPurchasedClick = this.handleMarkAsPurchasedClick.bind(this);
+    this.handleMarkAsNotPurchasedClick = this.handleMarkAsNotPurchasedClick.bind(this);
   }
 
-  handleMenuItemClick(item) {
+  handleVisitLinkClick(item) {
     window.location = this.props.item.link;
+  }
+
+  handleMarkAsPurchasedClick() {
+    this.props.markWishlistItemAsPurchased(this.props.item._id);
+  }
+
+  handleMarkAsNotPurchasedClick() {
+    this.props.markWishlistItemAsNotPurchased(this.props.item._id);
   }
 
 
@@ -31,8 +41,13 @@ export class WishlistItem extends React.Component {
     );
     const rightIconMenu = (
       <IconMenu iconButtonElement={menuIconButton}>
-        <MenuItem onClick={this.handleMenuItemClick}>Visit item page</MenuItem>
-        <MenuItem>Mark as purchased</MenuItem>
+        <MenuItem onClick={this.handleVisitLinkClick}>Visit item page</MenuItem>
+        {!this.props.item.purchased && 
+          <MenuItem onClick={this.handleMarkAsPurchasedClick}>Mark as purchased</MenuItem>
+        }
+        {this.props.item.purchased && 
+          <MenuItem onClick={this.handleMarkAsNotPurchasedClick}>Mark as not purchased</MenuItem>
+        }
         <MenuItem>Delete Item</MenuItem>
       </IconMenu>
     );

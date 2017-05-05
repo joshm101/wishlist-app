@@ -10,10 +10,10 @@ import { WishlistItem } from './Item/WishlistItem.jsx';
 export class Wishlist extends React.Component {
   render() {
     const openItems = this.props.wishlistItems.filter(item => !item.purchased).map(item => 
-      <WishlistItem item={item} key={item._id} />
+      <WishlistItem item={item} key={item._id} markWishlistItemAsPurchased={this.props.markWishlistItemAsPurchased} />
     );
     const purchasedItems = this.props.wishlistItems.filter(item => item.purchased).map(item =>
-      <WishlistItem item={item} key={item._id} />
+      <WishlistItem item={item} key={item._id} markWishlistItemAsNotPurchased={this.props.markWishlistItemAsNotPurchased} />
     );
 
     return (

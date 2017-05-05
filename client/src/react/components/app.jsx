@@ -9,8 +9,85 @@ import { Wishlist } from './Wishlist/Wishlist.jsx';
 import { Card, CardHeader } from 'material-ui/Card';
 
 export class App extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      wishlistItems: WISHLIST_ITEMS
+    };
+    this.markWishlistItemAsPurchased = this.markWishlistItemAsPurchased.bind(this);
+    this.markWishlistItemAsNotPurchased = this.markWishlistItemAsNotPurchased.bind(this);
+  }
+
+  /**
+   * Given the ID of item we want to set, set the item
+   * as purchased.
+   * @param {*} id - ID of item we are searching for
+   */  
+  markWishlistItemAsPurchased(id) {
+    let wishlistItemsCopy = this.state.wishlistItems.slice();
+    let itemToModify = this._findItem(id);
+    if (itemToModify) {
+      // item was found because it's not undefined
+      itemToModify.purchased = true;
+      let modifiedItemIndex = this._findItemIndex(id);
+      let itemsLength = this.state.wishlistItems.length;
+      this.setState({
+        wishlistItems: [
+          ...wishlistItemsCopy.slice(0, modifiedItemIndex),
+          itemToModify,
+          ...wishlistItemsCopy.slice(modifiedItemIndex + 1, itemsLength)
+        ]
+      });
+    }
+  }
+
+  /**
+  * Given the ID of item we want to set, set the item
+  * as not purchased.
+  * @param {*} id - ID of item we are searching for
+  */
+  markWishlistItemAsNotPurchased(id) {
+    let wishlistItemsCopy = this.state.wishlistItems.slice();
+    let itemToModify = this._findItem(id);
+    if (itemToModify) {
+      // item was found because it's not undefined
+      itemToModify.purchased = false;
+      let modifiedItemIndex = this._findItemIndex(id);
+      let itemsLength = this.state.wishlistItems.length;
+      this.setState({
+        wishlistItems: [
+          ...wishlistItemsCopy.slice(0, modifiedItemIndex),
+          itemToModify,
+          ...wishlistItemsCopy.slice(modifiedItemIndex + 1, itemsLength)
+        ]
+      });
+    }
+  }
+
+  /**
+   * Makes copy of wishlist and finds item in that copy
+   * that has an _id equal to the passed in id field.
+   * Will return undefined if item is not found
+   * @param {*} id - ID of item we are searching for
+   */
+  _findItem(id) {
+    let wishlistItemsCopy = this.state.wishlistItems.slice();
+    return wishlistItemsCopy.find((item) => item._id === id);
+  }
+
+  /**
+   * Makes copy of wishlist and finds index of item
+   * in that copy that has an _id field matching the 
+   * passed in id field
+   * @param {*} id - ID of item we are trying to get index of
+   */
+  _findItemIndex(id) {
+    let wishlistItemsCopy = this.state.wishlistItems.slice();
+    return wishlistItemsCopy.findIndex((item) => item._id === id);
+  }
+
   render() {
-    injectTapEventPlugin();
     let style = {
       marginTop: '50px'
     };
@@ -23,7 +100,9 @@ export class App extends React.Component {
           <div className="container">
             <Card>
               <CardHeader title="Tech wishlist" titleStyle={titleStyle} />
-              <Wishlist wishlistItems={WISHLIST_ITEMS} />
+              <Wishlist wishlistItems={this.state.wishlistItems} 
+                        markWishlistItemAsNotPurchased={this.markWishlistItemAsNotPurchased}
+                        markWishlistItemAsPurchased={this.markWishlistItemAsPurchased} />
             </Card>
           </div>
         </MuiThemeProvider>
@@ -33,14 +112,6 @@ export class App extends React.Component {
 }
 
 let mountNode = document.getElementById('react-container') || document.createElement('div');
-var PRODUCTS = [
-  {category: 'Sporting Goods', price: '$49.99', stocked: true, name: 'Football'},
-  {category: 'Sporting Goods', price: '$9.99', stocked: true, name: 'Baseball'},
-  {category: 'Sporting Goods', price: '$29.99', stocked: false, name: 'Basketball'},
-  {category: 'Electronics', price: '$99.99', stocked: true, name: 'iPod Touch'},
-  {category: 'Electronics', price: '$399.99', stocked: false, name: 'iPhone 5'},
-  {category: 'Electronics', price: '$199.99', stocked: true, name: 'Nexus 7'}
-];
 
 var WISHLIST_ITEMS = [
   {
@@ -85,6 +156,8 @@ var WISHLIST_ITEMS = [
   }
 ]
 
+
+injectTapEventPlugin();
 ReactDOM.render(
   <App />,
   mountNode
